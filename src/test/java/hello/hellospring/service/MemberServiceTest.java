@@ -28,7 +28,7 @@ class MemberServiceTest {
     }
 
     @Test
-    void 회원가입() { // 테스트코드는 한글로 해도 된다.
+    void 회원가입() { // 테스트코드는 한글로 해도 된다아.
         // given
         Member member = new Member();
         member.setName("spring");
