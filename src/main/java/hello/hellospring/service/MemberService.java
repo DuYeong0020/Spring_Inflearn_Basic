@@ -3,13 +3,17 @@ package hello.hellospring.service;
 import hello.hellospring.domain.Member;
 import hello.hellospring.repository.MemberRepsitory;
 import hello.hellospring.repository.MemoryMemberRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
+// @Service
 public class MemberService {
     private final MemberRepsitory memberRepository;
 
+//  @Autowired
     public MemberService(MemberRepsitory memberRepository) {
         this.memberRepository = memberRepository;
     } // 다른 인스턴스를 만들지 말고 생성자 초기화로
