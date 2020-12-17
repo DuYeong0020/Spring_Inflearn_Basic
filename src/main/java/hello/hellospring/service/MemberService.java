@@ -5,11 +5,13 @@ import hello.hellospring.repository.MemberRepsitory;
 import hello.hellospring.repository.MemoryMemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
 
 // @Service
+@Transactional // JPA를 사용하려면 넣어야한다.
 public class MemberService {
     private final MemberRepsitory memberRepository;
 
@@ -29,9 +31,12 @@ public class MemberService {
 //        result.ifPresent(m-> { // ifPresent: 값이 있으면
 //            throw new IllegalStateException("이미 존재한는 회원입니다.");
 //        }); -> 코드가 안이쁘다.
+
         validateDuplicateMember(member); // 중복 회원 검증, CTRL + T 로 리펙토링
         memberRepository.save(member);
         return member.getId();
+
+
     }
 
     private void validateDuplicateMember(Member member) {

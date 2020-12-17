@@ -1,37 +1,32 @@
 package hello.hellospring.service;
 
 import hello.hellospring.domain.Member;
+import hello.hellospring.repository.MemberRepsitory;
 import hello.hellospring.repository.MemoryMemberRepository;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.annotation.Transactional;
 
-import static org.assertj.core.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
-class MemberServiceTest { // 단위테스트 -> 좋은 테스트 컨테이너에 올리지 않고 하는거, 단위테스트를 훈련해야한다.
+@SpringBootTest
+@Transactional // 테스트가 끝나면 롤백을 해준다는 장점이 있다.
+class MemberServiceIntegrationTest {
 
     // MemberService memberService = new MemberService();
     // MemoryMemberRepository memberRepository = new MemoryMemberRepository(); // 다른 인스턴스를 만들어서 비효율적
-    MemberService memberService;
-    MemoryMemberRepository memberRepository;
-
-    @BeforeEach
-    public void beforeEach() {
-        memberRepository = new MemoryMemberRepository();
-        memberService = new MemberService(memberRepository);
-    }
-    @AfterEach
-    public void afterEach() { // 콜백, 끝날때마다 비워준다.
-        memberRepository.clearStore();
-    }
+    @Autowired MemberService memberService;
+    @Autowired MemberRepsitory memberRepository;
 
     @Test
     void 회원가입() { // 테스트코드는 한글로 해도 된다.
         // given
         Member member = new Member();
-        member.setName("spring");
+        member.setName("spring5");
 
         // when
         Long saveId = memberService.join(member);
@@ -45,10 +40,10 @@ class MemberServiceTest { // 단위테스트 -> 좋은 테스트 컨테이너에
     public void 중복_회원_예외() {
         // given
         Member member1 = new Member();
-        member1.setName("spring");
+        member1.setName("spring5");
 
         Member member2 = new Member();
-        member2.setName("spring");
+        member2.setName("spring5");
         // when
         memberService.join(member1);
         IllegalStateException e = assertThrows(IllegalStateException.class, () -> memberService.join(member2));
